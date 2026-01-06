@@ -8,6 +8,8 @@ public class Button : View
 	public Color BackgroundColorHovered { get; set; } = Color.SkyBlue;
 	public Color TextColor { get; set; } = Color.White;
 
+	public Action? OnClick { get; set; }
+
 	public override bool HandleInput(float dt)
 	{
 		var mousePos = Raylib.GetMousePosition();
@@ -27,6 +29,7 @@ public class Button : View
 			{
 				// Button was clicked
 				Console.WriteLine($"Button '{Text}' clicked!");
+				OnClick?.Invoke();
 				return true; // Consume input
 			}
 		}

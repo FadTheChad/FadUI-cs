@@ -21,7 +21,7 @@ public class View
 	private List<View> _children = [];
 	public IReadOnlyList<View> Children => _children;
 
-	public View? Parent { get; private set; }
+	public View? Parent { get; set; }
 
 	public Vector2 LocalPosition { get; set; }
 	public Vector2 Size { get; set; }

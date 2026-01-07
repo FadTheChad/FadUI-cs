@@ -1,6 +1,7 @@
 ﻿using FadUI.Views;
 
 namespace FadUI.Core;
+
 public class UIManager
 {
 	private Stack<View> _layers = [];
@@ -28,6 +29,8 @@ public class UIManager
 		{
 			layer.Update(dt);
 		}
+
+		AnimationManager.Update(dt);
 	}
 
 	public void PushLayer(View layer)

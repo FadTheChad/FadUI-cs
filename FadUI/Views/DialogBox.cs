@@ -7,6 +7,7 @@ public class DialogBox : View
 {
 	public string Title { get; set; } = "Dialog";
 	public string Description { get; set; } = "This is a dialog box.";
+	public bool IsPopup { get; set; } = true;
 
 	private const float Padding = 15f;
 	private const int TitleSize = 20;
@@ -75,7 +76,7 @@ public class DialogBox : View
 		//	}
 		//}
 
-		return true;
+		return IsPopup;
 	}
 
 	public override void Draw()

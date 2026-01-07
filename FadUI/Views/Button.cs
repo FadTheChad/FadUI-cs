@@ -1,6 +1,8 @@
 ﻿using Raylib_cs;
+using FadUI.Core;
 
 namespace FadUI.Views;
+
 public class Button : View
 {
 	public string Text { get; set; } = "Button";
@@ -10,18 +12,23 @@ public class Button : View
 
 	public Action? OnClick { get; set; }
 
+	private Color _renderColor;
+	private bool _isHovered;
+	private bool _initialized = false;
+
 	public override bool HandleInput(float dt)
 	{
+		if (!_initialized)
+		{
+			_renderColor = BackgroundColor;
+			_initialized = true;
+		}
+
 		var mousePos = Raylib.GetMousePosition();
 
-		if (Raylib.CheckCollisionPointRec(mousePos, Bounds))
-		{
-			BackgroundColor = BackgroundColorHovered;
-		}
-		else
-		{
-			BackgroundColor = Color.Blue;
-		}
+		_isHovered = Raylib.CheckCollisionPointRec(mousePos, Bounds);
+
+		AnimationManager.TweenColor(() => _renderColor, c => _renderColor = c, _isHovered ? BackgroundColorHovered : BackgroundColor, 0.2f);
 
 		if (IsVisible && Raylib.IsMouseButtonPressed(MouseButton.Left))
 		{
@@ -39,13 +46,19 @@ public class Button : View
 
 	public override void Draw()
 	{
+		if (!_initialized)
+		{
+			_renderColor = BackgroundColor;
+			_initialized = true;
+		}
+
 		// Draw button background
 		Raylib.DrawRectangle(
 			(int)GlobalPosition.X,
 			(int)GlobalPosition.Y,
 			(int)Size.X,
 			(int)Size.Y,
-			BackgroundColor
+			_renderColor
 		);
 
 		// Draw button text (centered)
